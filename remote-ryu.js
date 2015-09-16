@@ -24,18 +24,16 @@ app.post('/api/ryu-manager/run', function(req, res) {
 });
 
 app.get('/api/ryu-manager/stop', function(req, res) {
-  var pidNum = Number(fs.readFileSync('ryuPID'));
-  process.kill(pidNum, 'SIGHUP');
-
-  // child.exec('kill -9 $(<"./ryuPID")', function(err, stdout, stderr) {
-  //   console.log(stdout);
-  // });
-
-  return res.sendStatus(204);
+  if (fs.existsSync('ryuPID')) {
+    process.kill(Number(fs.readFileSync('ryuPID')), 'SIGHUP');
+    return res.sendStatus(204);
+  } else {
+    return res.sendStatus(400);
+  }
 });
 
 var server = app.listen(1999, function() {
   var host = server.address().address;
   var port = server.address().port;
-  console.log('[*] Ryu-Remote-Server listening at http://%s:%s', host, port);
+  console.log('[*] Ryu Remote Server listening at http://%s:%s', host, port);
 });
