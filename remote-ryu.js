@@ -17,7 +17,7 @@ app.post('/api/ryu-manager/run', function(req, res) {
   var ryuOptions =  appList.concat(pidOptions);
 
   console.log(ryuOptions);
-  var ryuProcess = child.spawn('../bin/ryu-manager', ryuOptions);
+  var ryuProcess = child.spawn('./bin/ryu-manager', ryuOptions);
 
   res.send({result: 'ok'});
 });
