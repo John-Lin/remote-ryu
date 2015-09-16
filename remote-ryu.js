@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var child = require('child_process');
@@ -23,9 +24,12 @@ app.post('/api/ryu-manager/run', function(req, res) {
 });
 
 app.get('/api/ryu-manager/stop', function(req, res) {
-  child.exec('kill -9 $(<"./ryuPID")', function(err, stdout, stderr) {
-    console.log(stdout);
-  });
+  var pidNum = Number(fs.readFileSync('ryuPID'));
+  process.kill(pidNum, 'SIGHUP');
+
+  // child.exec('kill -9 $(<"./ryuPID")', function(err, stdout, stderr) {
+  //   console.log(stdout);
+  // });
 
   return res.sendStatus(204);
 });
