@@ -22,10 +22,18 @@ app.post('/api/ryu-manager/run', function(req, res) {
   var ryuOptions =  appList.concat(pidOptions);
 
   console.log(ryuOptions);
-  var ryuProcess = child.spawn('./bin/ryu-manager', ryuOptions);
+  var ryuProcess = child.spawn('./bin/ryu-manager', ryuOptions, {
+    detached: false,
+  });
+
   ryuProcess.stdout.setEncoding('utf8');
+
   ryuProcess.stdout.on('data', function(data) {
     console.log(data);
+  });
+
+  ryuProcess.stderr.on('data', function(data) {
+    console.log('[x] Error: ' + data);
   });
 
   res.send({result: 'ok'});
