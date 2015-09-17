@@ -9,6 +9,10 @@ app.use(bodyParser.json());
 app.post('/api/ryu-manager/run', function(req, res) {
   var bodyString = req.body.app;
 
+  if (!bodyString) {
+    return res.sendStatus(400);
+  }
+
   if (bodyString.indexOf('&') > -1 || bodyString.indexOf(';') > -1 || bodyString.indexOf('|') > -1) {
     return res.sendStatus(400);
   }
@@ -19,6 +23,10 @@ app.post('/api/ryu-manager/run', function(req, res) {
 
   console.log(ryuOptions);
   var ryuProcess = child.spawn('./bin/ryu-manager', ryuOptions);
+
+  child.stdout.on('data', function(data) {
+    console.log(data);
+  });
 
   res.send({result: 'ok'});
 });
