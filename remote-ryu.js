@@ -23,7 +23,7 @@ app.post('/api/ryu-manager/run', function(req, res) {
 
   console.log(ryuOptions);
   var ryuProcess = child.spawn('./bin/ryu-manager', ryuOptions, {
-    detached: false,
+    detached: true,
   });
 
   ryuProcess.stdout.setEncoding('utf8');
