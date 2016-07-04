@@ -26,7 +26,4 @@ RUN curl -kL https://github.com/hsnl-dev/vcpe-hub/archive/master.tar.gz | tar -x
 # vCPE hub dependencies package
 RUN pip install -r vcpe-hub-master/requirements.txt
 
-# Define working directory.
-WORKDIR /root/ryu/remote-ryu
-
-CMD ["node", "remote-ryu.js"]
+CMD ["node", "./remote-ryu/remote-ryu.js"]
