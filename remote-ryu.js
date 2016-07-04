@@ -7,7 +7,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-app.post('/api/ryu-manager/run', function(req, res) {
+app.post('/api/ryu-manager/run', function (req, res) {
   var bodyString = req.body.app;
 
   if (!bodyString) {
@@ -29,18 +29,18 @@ app.post('/api/ryu-manager/run', function(req, res) {
 
   ryuProcess.stdout.setEncoding('utf8');
 
-  ryuProcess.stdout.on('data', function(data) {
+  ryuProcess.stdout.on('data', function (data) {
     winston.info('Stdout: ' + data);
   });
 
-  ryuProcess.stderr.on('data', function(data) {
+  ryuProcess.stderr.on('data', function (data) {
     winston.info('Stderr: ' + data);
   });
 
-  res.send({result: 'ok'});
+  res.send({ result: 'ok' });
 });
 
-app.get('/api/ryu-manager/stop', function(req, res) {
+app.get('/api/ryu-manager/stop', function (req, res) {
   if (fs.existsSync('ryuPID')) {
     process.kill(Number(fs.readFileSync('ryuPID')), 'SIGHUP');
     return res.sendStatus(204);
@@ -49,7 +49,7 @@ app.get('/api/ryu-manager/stop', function(req, res) {
   }
 });
 
-var server = app.listen(1999, function() {
+var server = app.listen(1999, function () {
   var host = server.address().address;
   var port = server.address().port;
   winston.info('[*] Ryu Remote Server listening at http://%s:1999', host, port);
